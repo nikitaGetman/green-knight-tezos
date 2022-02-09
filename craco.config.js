@@ -1,16 +1,17 @@
+const CracoStylusPlugin = require('craco-stylus');
+const path = require('path');
+
+const resolvePath = (p) => path.resolve(__dirname, p);
+
 module.exports = {
-  module: [
+  plugins: [
     {
-      test: /\.styl$/,
-      use: [
-        "style-loader",
-        "css-loader?modules&camelCase&localIdentName=[path]__[name]__[local]--[hash:base64:5]",
-        "stylus-loader",
-      ],
-    },
-    {
-      test: /\.css$/,
-      use: ["style-loader", "css-loader"],
+      plugin: CracoStylusPlugin,
     },
   ],
+  webpack: {
+    alias: {
+      '@': resolvePath('./src/'),
+    },
+  },
 };

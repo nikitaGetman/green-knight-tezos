@@ -1,6 +1,8 @@
-import React, { FC } from "react";
-import "./app.styl";
-import { Button } from "../button/button";
+import React, { FC } from 'react';
+
+import { Button } from '@/components/button/button';
+
+import './app.module.styl';
 
 export const App: FC = () => {
   return (

@@ -12,6 +12,8 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "antd": "^4.18.6",
+    "axios": "^0.21.1",
+    "craco-stylus": "^1.1.1",
     "css-loader": "^6.6.0",
     "global": "^4.4.0",
     "npm-run-all": "^4.1.5",
@@ -23,17 +25,37 @@
     "typescript": "^4.5.5",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0"
+  },
   "scripts": {
-    "eject": "react-scripts eject",
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "eject": "craco eject",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src --color",
+    "lint:types": "tsc --noEmit",
+    "prettify": "prettier --write 'src/**/*.{ts,tsx,scss,css,json}'",
+    "isReady": "npm run lint:types && npm run prettify && npm run lint:fix && npm run build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ],
+    "*.{ts,tsx,js,jsx,json}": [
+      "prettier --write"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "browserslist": {
     "production": [
