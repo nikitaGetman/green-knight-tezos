@@ -1,6 +1,11 @@
+import { Button as AntButton, ButtonProps } from 'antd';
 import React, { FC } from 'react';
-import './button.styl';
+import './button.scss';
 
-export const Button: FC = ({ children }) => {
-  return <button className="button">{children}</button>;
+export const Button: FC<ButtonProps> = ({ children, ...rest }) => {
+  return (
+    <AntButton {...rest} shape="round" size="large" type="dashed" ghost>
+      {children}
+    </AntButton>
+  );
 };

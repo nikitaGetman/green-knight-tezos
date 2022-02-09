@@ -2,12 +2,16 @@ import React, { FC } from 'react';
 
 import { Button } from '@/components/button/button';
 
-import './app.module.styl';
+import './app.scss';
 
 export const App: FC = () => {
+  const handleClick = () => {
+    console.log('hello');
+  };
+
   return (
     <div className="app">
-      <Button>Create</Button>
+      <Button onClick={handleClick}>Create</Button>
     </div>
   );
 };
