@@ -4,7 +4,10 @@ import './button.scss';
 
 export const Button: FC<ButtonProps> = ({ children, ...rest }) => {
   return (
-    <AntButton {...rest} shape="round" size="large" type="dashed" ghost>
+    // <AntButton {...rest} shape="round" size="large" type="dashed" ghost>
+    //   {children}
+    // </AntButton>
+    <AntButton {...rest} shape="round" size="large" type="default">
       {children}
     </AntButton>
   );
