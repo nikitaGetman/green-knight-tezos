@@ -11,7 +11,7 @@
   },
   "rules": {
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "error",
     "import/no-anonymous-default-export": "off",
     "max-len": [
       "warn",
@@ -23,17 +23,17 @@
     "no-console": "warn",
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
-    "import/order": [
-      "error",
-      {
-        "alphabetize": {
-          "caseInsensitive": true,
-          "order": "asc"
-        },
-        "groups": [["builtin", "external"], "internal", "parent", "sibling", "index"],
-        "newlines-between": "always"
-      }
-    ],
+    // "import/order": [
+    //   "warn",
+    //   {
+    //     "alphabetize": {
+    //       "caseInsensitive": true,
+    //       "order": "asc"
+    //     },
+    //     "groups": [["builtin", "external"], "internal", "parent", "sibling", "index"],
+    //     "newlines-between": "always"
+    //   }
+    // ],
     "prettier/prettier": [
       "error",
       {
