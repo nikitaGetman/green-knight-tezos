@@ -12,8 +12,8 @@ export const Header: FC<Props> = () => {
 
       <div className="header__nav">
         <Link to="/">Home</Link>
-        <Link to="/create">Create new rule</Link>
-        <Link to="/plugin">Use plugin</Link>
+        <Link to="/create">Create access</Link>
+        <Link to="/plugin">Use our plugin</Link>
       </div>
     </div>
   );

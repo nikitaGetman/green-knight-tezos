@@ -48,7 +48,7 @@ export const AuthorizePage: FC = () => {
 
       setTimeout(() => {
         setStatus('finish');
-        // window.open(href);
+        window.open(href);
       }, 2000);
     },
     [setStatus]
