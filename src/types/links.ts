@@ -4,15 +4,15 @@ export type TokenType = {
   contract?: string;
 };
 
-export enum RuleTypes {
+export enum LinkTypes {
   Telegram = 'telegram',
   Discord = 'discord',
   Http = 'http',
 }
 
-export type RuleType = {
+export type LinkType = {
   title?: string;
-  balance?: string;
+  minBalance?: string;
   token?: TokenType;
-  type: RuleTypes;
+  type: LinkTypes;
 };

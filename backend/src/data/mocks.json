@@ -1,0 +1,13 @@
+{
+  "links": {
+    "ads": {
+      "type": "telegram",
+      "title": "Tezos Ukraine - Secret telegram",
+      "token": {
+        "name": "TEZ",
+        "icon": ""
+      },
+      "minBalance": 100
+    }
+  }
+}

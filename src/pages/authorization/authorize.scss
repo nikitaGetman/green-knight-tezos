@@ -13,4 +13,10 @@
     margin: 50px 0 24px;
     width: 250px;
   }
+  &__error {
+    font-size: 16px;
+  }
+  &__error-link {
+    color: red;
+  }
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const timeout = 600000;
-const axiosInstance = axios.create({ baseURL: process.env.APP_BASE_URL || '/', timeout });
+const axiosInstance = axios.create({ baseURL: process.env.REACT_APP_BASE_API_URL || '/', timeout });
 
 // const defaultErrorInterceptor = (error) => Promise.reject(error);
 // const defaultRequestInterceptor = (config) => config;

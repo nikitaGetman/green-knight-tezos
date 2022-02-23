@@ -12,7 +12,7 @@ export const Header: FC<Props> = () => {
 
       <div className="header__nav">
         <Link to="/">Home</Link>
-        <Link to="/create">Create access</Link>
+        <Link to="/create">Create link</Link>
         <Link to="/plugin">Use our plugin</Link>
       </div>
     </div>

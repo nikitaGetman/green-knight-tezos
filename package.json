@@ -39,7 +39,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "craco build && cp -R ./build/ ./backend/public",
     "test": "craco test",
     "eject": "craco eject",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
