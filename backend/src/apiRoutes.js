@@ -1,15 +1,58 @@
+const axios = require('axios');
 const crypto = require('crypto');
 const express = require('express');
 const router = express.Router();
 
 const MOCK_DATA = require('./data/mocks.json');
 
-router.get('/token', (req, res) => {
+router.get('/tokens', (req, res) => {
   const { q } = req.query;
 
-  // TODO search token by q
+  const isContractAddress = q.startsWith('KT') && q.length === 36;
 
-  res.send('Hello world');
+  const requests = isContractAddress
+    ? [axios.get('https://api.mainnet.tzkt.io/v1/tokens', { params: { contract: q, tokenId: 0 } })]
+    : [
+        axios.get('https://api.mainnet.tzkt.io/v1/tokens', {
+          params: { 'metadata.symbol.as': `${q}*`, tokenId: 0, limit: 10 },
+        }),
+        axios.get('https://api.mainnet.tzkt.io/v1/tokens', {
+          params: { 'metadata.name.as': `${q}*`, tokenId: 0, limit: 10 },
+        }),
+      ];
+
+  axios
+    .all(requests)
+    .then(
+      axios.spread((...responses) => {
+        const list = isContractAddress ? responses[0].data : [...responses[0].data, ...responses[1].data];
+        const filteredList = list.reduce((acc, item) => {
+          if (acc.find((i) => i.id === item.id)) {
+            return acc;
+          }
+          return [...acc, item];
+        }, []);
+
+        const response = {
+          list: filteredList,
+        };
+
+        res.send(response);
+      })
+    )
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+});
+
+router.get('/token', (req, res) => {
+  const { contract } = req.query;
+
+  axios.get('https://api.mainnet.tzkt.io/v1/tokens', { params: { contract } }).then((result) => {
+    const token = result.data;
+    res.send(token);
+  });
 });
 
 router.get('/link', (req, res) => {

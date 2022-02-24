@@ -16,24 +16,27 @@ const useFetch = <T>(
   const refetch = () => setRefetchIndex((prevRefetchIndex) => prevRefetchIndex + 1);
 
   const fetch = useCallback(
-    async (...restParams) => {
+    (restParams = {}) => {
       setIsLoading(true);
-      try {
-        const response = await fetchMethod({ ...params, ...restParams });
 
-        if (response.status === 200) {
-          setData(response.data);
-        } else {
+      return fetchMethod({ ...params, ...restParams })
+        .then((response) => {
+          if (response.status === 200) {
+            setData(response.data);
+          } else {
+            setHasError(true);
+            setErrorMessage(response.data);
+          }
+          return response.data;
+        })
+        .catch((err) => {
           setHasError(true);
-          setErrorMessage(response.data);
-        }
-      } catch (err: any) {
-        setHasError(true);
-        setErrorMessage(err?.message);
-      } finally {
-        setIsLoading(false);
-        setIsDone(true);
-      }
+          setErrorMessage(err?.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setIsDone(true);
+        });
     },
     [setIsLoading, fetchMethod, params, setData, setHasError, setErrorMessage]
   );

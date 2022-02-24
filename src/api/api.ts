@@ -15,3 +15,11 @@ export function checkUser({
 }): Promise<any> {
   return client.post('/link/check', { account, signature, link });
 }
+
+export function searchTokens({ q }: { q: string }): Promise<any> {
+  return client.get('/tokens', { params: { q } });
+}
+
+export function searchToken({ contract }: { contract: string }): Promise<any> {
+  return client.get('/token', { params: { contract } });
+}
