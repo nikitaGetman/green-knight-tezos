@@ -1,3 +1,5 @@
+@import '@/assets/styles/vars';
+
 .create-link {
   display: flex;
   flex-direction: column;
@@ -16,5 +18,18 @@
 
   &__submit {
     text-align: center;
+  }
+
+  &__tip {
+    text-align: center;
+    color: $--gray;
+  }
+
+  &__token-description {
+    max-width: 400px;
+    color: $--gray;
+  }
+  &__separate-text {
+    margin-bottom: 12px;
   }
 }

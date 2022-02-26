@@ -1,0 +1,12 @@
+.link-token-balance {
+  &__header {
+    display: flex;
+  }
+  &__icon {
+    width: 48px;
+    height: 48px;
+    margin-right: 8px;
+    background-size: contain;
+    background-position: center;
+  }
+}

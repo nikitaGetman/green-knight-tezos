@@ -14,10 +14,10 @@ router.get('/tokens', (req, res) => {
     ? [axios.get('https://api.mainnet.tzkt.io/v1/tokens', { params: { contract: q, tokenId: 0 } })]
     : [
         axios.get('https://api.mainnet.tzkt.io/v1/tokens', {
-          params: { 'metadata.symbol.as': `${q}*`, tokenId: 0, limit: 10 },
+          params: { 'metadata.symbol.as': `${q}*`, tokenId: 0, limit: 20 },
         }),
         axios.get('https://api.mainnet.tzkt.io/v1/tokens', {
-          params: { 'metadata.name.as': `${q}*`, tokenId: 0, limit: 10 },
+          params: { 'metadata.name.as': `${q}*`, tokenId: 0, limit: 20 },
         }),
       ];
 

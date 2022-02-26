@@ -1,47 +1,57 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 
 import { Button } from '@/components/button/button';
-import { Form, Input, Radio } from 'antd';
+import { Form, Input, Checkbox } from 'antd';
+import { Link } from 'react-router-dom';
 
 import './create-link.scss';
 import { TokenAutoComplete } from '@/components/token-auto-complete/token-auto-complete';
-
-const PLACEHOLDERS: any = {
-  http: {
-    title: 'Green Knight secret resource',
-    link: 'https://greenknight.com/secret',
-  },
-  telegram: {
-    title: 'Green Knight secret telegram',
-    link: 'https://t.me/GreenKnight_secret',
-  },
-};
+import { TokenType } from '@/types/links';
+import { isFA12Token, isFA2Token } from '@/utils/tokens';
+import { CreateLinkTokenBalance } from '@/components/create-link-token-balance/create-link-token-balance';
 
 export const CreateLinkPage: FC = () => {
   const [form] = Form.useForm();
-  const [linkType, setLinkType] = useState('http');
+  const [token, setToken] = useState<TokenType[]>();
+  const [isSeparateLink, setIsSeparateLink] = useState(false);
 
-  const onFormChange = useCallback(
-    ({ type }: { type: any }) => {
-      if (type) {
-        setLinkType(type);
-      }
+  const selectToken = useCallback(
+    (token: TokenType[] | null) => {
+      const sortedTokens = token?.sort((a, b) => parseInt(a.tokenId) - parseInt(b.tokenId));
+      setToken(sortedTokens);
     },
-    [setLinkType]
+    [setToken]
   );
 
-  const trySubmitForm = useCallback(() => {
-    form.submit();
-  }, [form]);
+  const isTokenFA12 = useMemo(() => isFA12Token(token), [token]);
+  const isTokenFA2 = useMemo(() => isFA2Token(token), [token]);
 
-  const handleSubmit = (data: any) => {
-    console.log('submit', data);
-  };
-  const selectToken = (token: any) => {
-    console.log('selectToken', token);
-  };
+  const handleSeparateLinkChange = useCallback((e: any) => setIsSeparateLink(e.target.checked), [setIsSeparateLink]);
 
-  const initialValues = { type: 'http' };
+  const trySubmitForm = useCallback(() => form.submit(), [form]);
+
+  const handleSubmit = useCallback(
+    (data: any) => {
+      const { title, linkType, link, minBalance } = data;
+      const links = Object.entries(linkType).reduce(
+        (acc: any[], [id, type]) => [
+          ...acc,
+          {
+            linkType: type,
+            tokenId: id,
+            link: link[id],
+            minBalance: minBalance[id] || 0,
+          },
+        ],
+        []
+      );
+
+      const result = { title, token, links, isSeparateLink };
+
+      console.log(result);
+    },
+    [token, isSeparateLink]
+  );
 
   return (
     <div className="create-link">
@@ -52,47 +62,77 @@ export const CreateLinkPage: FC = () => {
           layout="horizontal"
           labelCol={{ span: 7 }}
           form={form}
-          initialValues={initialValues}
-          onValuesChange={onFormChange}
           onFinish={handleSubmit}
           requiredMark={false}
           size="large"
         >
-          <Form.Item name="title" label="Title" tooltip="Title that users will see when authorizing" required>
-            <Input placeholder={PLACEHOLDERS[linkType].title} />
-          </Form.Item>
-
-          <Form.Item name="token" label="Token" tooltip="Name, symbol or contract address of FA1.2 or FA2 token">
-            <TokenAutoComplete onSelect={selectToken} />
+          <Form.Item
+            name="title"
+            label="Title"
+            tooltip="Title that users will see when authorizing"
+            rules={[{ required: true, message: 'Title is required' }]}
+          >
+            <Input placeholder="Some secret resource" />
           </Form.Item>
 
           <Form.Item
-            label="Min balance"
-            name="minBalance"
-            tooltip="Minimal balance of tokens, if not specified then any quantity will be sufficient"
+            label="Token"
+            tooltip="Name, symbol or contract address of FA1.2 or FA2 token"
+            rules={[
+              { validator: () => (token ? Promise.resolve() : Promise.reject(new Error('Please choose token'))) },
+            ]}
           >
-            <Input placeholder="any" />
+            <TokenAutoComplete onSelect={selectToken} />
           </Form.Item>
 
-          <Form.Item label="Link type" name="type">
-            <Radio.Group value={linkType}>
-              <Radio.Button value="http">HTTP</Radio.Button>
-              <Radio.Button value="telegram">Telegram</Radio.Button>
-              <Radio.Button value="discord" disabled>
-                Discord
-              </Radio.Button>
-            </Radio.Group>
-          </Form.Item>
+          {token ? (
+            <>
+              <Form.Item wrapperCol={{ offset: 7 }}>
+                <div className="create-link__token-description">
+                  {isTokenFA12 && (
+                    <>
+                      <div>FA1.2 token</div>
+                      <div>You can specify minimal balance of tokens for access</div>
+                    </>
+                  )}
+                  {isTokenFA2 && (
+                    <>
+                      <div>FA2 token</div>
+                      <div className="create-link__separate-text">
+                        You can specify a separate link for each token ID or use one link for all
+                      </div>
+                      <Checkbox onChange={handleSeparateLinkChange} checked={isSeparateLink}>
+                        Separate links (<b>{token.length}</b> tokenId found)
+                      </Checkbox>
+                    </>
+                  )}
+                </div>
+              </Form.Item>
 
-          <Form.Item name="link" label="Link" tooltip="Link to resource, which you want to protect" required>
-            <Input placeholder={PLACEHOLDERS[linkType].link} />
-          </Form.Item>
+              {isSeparateLink ? (
+                token.map((t) => <CreateLinkTokenBalance token={t} withHeader={true} key={t.tokenId} />)
+              ) : (
+                <CreateLinkTokenBalance token={token[0]} />
+              )}
 
-          <Form.Item className="create-link__submit">
-            <Button type="primary" onClick={trySubmitForm}>
-              Create secure link
-            </Button>
-          </Form.Item>
+              {/* <Form.Item name="rules" valuePropName="checked" wrapperCol={{ offset: 7 }} required>
+                <Checkbox>
+                  I added telegram bot to the channel.
+                  <Link to="/telegram-bot" target="_blank">
+                    Instruction
+                  </Link>
+                </Checkbox>
+              </Form.Item> */}
+
+              <Form.Item className="create-link__submit">
+                <Button type="primary" onClick={trySubmitForm}>
+                  Create secure link
+                </Button>
+              </Form.Item>
+            </>
+          ) : (
+            <div className="create-link__tip">select token</div>
+          )}
         </Form>
       </div>
     </div>

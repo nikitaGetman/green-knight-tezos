@@ -6,6 +6,7 @@ import { AuthorizePage } from './pages/authorization/authorization';
 import { CreateLinkPage } from './pages/create-link/create-link';
 import { MainPage } from './pages/main/main';
 import { PluginPage } from './pages/plugin/plugin';
+import { TelegramBot } from './pages/telegram-bot/telegram-bot';
 
 export const App: FC = () => {
   return (
@@ -15,6 +16,7 @@ export const App: FC = () => {
         <Route path="create" element={<CreateLinkPage />} />
         <Route path="plugin" element={<PluginPage />} />
         <Route path=":linkId" element={<AuthorizePage />} />
+        <Route path="telegram-bot" element={<TelegramBot />} />
       </Route>
     </Routes>
   );
