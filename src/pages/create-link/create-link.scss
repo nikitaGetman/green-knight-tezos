@@ -14,6 +14,12 @@
 
   &__form {
     min-width: 400px;
+
+    &--submitted-true {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: default;
+    }
   }
 
   &__submit {
@@ -31,5 +37,11 @@
   }
   &__separate-text {
     margin-bottom: 12px;
+  }
+
+  &__result {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 32px;
   }
 }

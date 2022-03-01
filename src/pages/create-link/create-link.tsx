@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Button } from '@/components/button/button';
 import { Form, Input, Checkbox } from 'antd';
@@ -6,9 +6,13 @@ import { Link } from 'react-router-dom';
 
 import './create-link.scss';
 import { TokenAutoComplete } from '@/components/token-auto-complete/token-auto-complete';
-import { TokenType } from '@/types/links';
+import { SecureLinkType, TokenType } from '@/types/links';
 import { isFA12Token, isFA2Token } from '@/utils/tokens';
 import { CreateLinkTokenBalance } from '@/components/create-link-token-balance/create-link-token-balance';
+import useFetch from '@/hooks/useFetch';
+import { createSecureLink } from '@/api/api';
+
+const BASE_LINK = process.env.REACT_APP_BASE_FRONT_URL;
 
 export const CreateLinkPage: FC = () => {
   const [form] = Form.useForm();
@@ -30,9 +34,14 @@ export const CreateLinkPage: FC = () => {
 
   const trySubmitForm = useCallback(() => form.submit(), [form]);
 
+  const createLinkRequest = useFetch<SecureLinkType>(createSecureLink);
+
   const handleSubmit = useCallback(
     (data: any) => {
+      if (!token) return;
+
       const { title, linkType, link, minBalance } = data;
+
       const links = Object.entries(linkType).reduce(
         (acc: any[], [id, type]) => [
           ...acc,
@@ -46,18 +55,45 @@ export const CreateLinkPage: FC = () => {
         []
       );
 
-      const result = { title, token, links, isSeparateLink };
+      const requestParams = { title, token, links, isSeparateLink };
 
-      console.log(result);
+      createLinkRequest.fetch(requestParams);
     },
-    [token, isSeparateLink]
+    [token, isSeparateLink, createLinkRequest]
+  );
+
+  // scroll to top on link created
+  useEffect(
+    () => () => {
+      try {
+        window.scroll({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
+      } catch (error) {
+        window.scrollTo(0, 0);
+      }
+    },
+    [createLinkRequest.isDone]
   );
 
   return (
     <div className="create-link">
       <h2 className="create-link__title">Create secure link to resource to grant access for you loyal audience</h2>
 
-      <div className="create-link__form">
+      {createLinkRequest.isDone && (
+        <div className="create-link__result">
+          <div>Link is protected, for authorization use:</div>
+          <div>
+            <a href={`${BASE_LINK}/${createLinkRequest.data?.id}`} target="_blank" rel="noreferrer">
+              {BASE_LINK}/<b>{createLinkRequest.data?.id}</b>
+            </a>
+          </div>
+        </div>
+      )}
+
+      <div className={`create-link__form create-link__form--submitted-${createLinkRequest.isDone}`}>
         <Form
           layout="horizontal"
           labelCol={{ span: 7 }}
@@ -65,6 +101,7 @@ export const CreateLinkPage: FC = () => {
           onFinish={handleSubmit}
           requiredMark={false}
           size="large"
+          scrollToFirstError={true}
         >
           <Form.Item
             name="title"
@@ -115,9 +152,14 @@ export const CreateLinkPage: FC = () => {
                 <CreateLinkTokenBalance token={token[0]} />
               )}
 
-              {/* <Form.Item name="rules" valuePropName="checked" wrapperCol={{ offset: 7 }} required>
+              {/* <Form.Item
+                name="hasAddedTelegramBot"
+                valuePropName="checked"
+                wrapperCol={{ offset: 7 }}
+                rules={[{ required: true, message: 'Add telegram bot, if you added telegram links' }]}
+              >
                 <Checkbox>
-                  I added telegram bot to the channel.
+                  I have added GreenKnight telegram bot to the telegram channels.
                   <Link to="/telegram-bot" target="_blank">
                     Instruction
                   </Link>
@@ -125,7 +167,7 @@ export const CreateLinkPage: FC = () => {
               </Form.Item> */}
 
               <Form.Item className="create-link__submit">
-                <Button type="primary" onClick={trySubmitForm}>
+                <Button type="primary" onClick={trySubmitForm} loading={createLinkRequest.isLoading}>
                   Create secure link
                 </Button>
               </Form.Item>

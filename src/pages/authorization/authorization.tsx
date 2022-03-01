@@ -12,7 +12,7 @@ import useFetch from '@/hooks/useFetch';
 import { Loader } from '@/components/loader/loader';
 import { LinkDataView } from '@/components/link-data/link-data';
 
-import { LinkType } from '@/types/links';
+import { SecureLinkType } from '@/types/links';
 import './authorize.scss';
 
 const walletController = new WalletController();
@@ -28,7 +28,7 @@ export const AuthorizePage: FC = () => {
   const { linkId } = useParams();
   const { steps, current, status, error, setCurrent, setStatus, setError, nextStep } = useSteps(STEPS);
 
-  const fetchLinkRequest = useFetch<LinkType>(fetchLinkData, { link: linkId || '' }, true);
+  const fetchLinkRequest = useFetch<SecureLinkType>(fetchLinkData, { link: linkId || '' }, true);
   const isUrlIncorrect = useMemo(
     () => fetchLinkRequest.hasError || (fetchLinkRequest.data && !fetchLinkRequest.data.title),
     [fetchLinkRequest]
@@ -119,7 +119,7 @@ export const AuthorizePage: FC = () => {
         </span>
       )}
 
-      {fetchLinkRequest.data && fetchLinkRequest.data.type && (
+      {fetchLinkRequest.data && (
         <>
           <LinkDataView {...fetchLinkRequest.data} />
           <div className="authorize__steps">

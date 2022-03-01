@@ -64,20 +64,20 @@ router.get('/link', (req, res) => {
 
 router.post('/link', (req, res) => {
   // tezosRpc , tezos
-  const { token, type, href, minBalance, title } = req.body;
+  const { title, token, links, isSeparateLink = false } = req.body;
 
   const id = crypto.randomBytes(8).toString('hex');
 
-  const tokenData = { name: 'TEZ', icon: '' };
+  const tokenData = { contract: token[0].contract.address, standard: token[0].standard, metadata: token[0].metadata };
+  const linksData = links.map(({ linkType, tokenId, minBalance }) => ({ linkType, tokenId, minBalance }));
   const response = {
     id,
-    token: tokenData,
-    type,
-    minBalance,
     title,
+    token: tokenData,
+    links: linksData,
   };
 
-  MOCK_DATA.links[id] = { ...response, href };
+  MOCK_DATA.links[id] = { ...response, links, isSeparateLink };
 
   res.send(response);
 });

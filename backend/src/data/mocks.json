@@ -1,14 +1,27 @@
 {
   "links": {
     "ads": {
-      "type": "telegram",
       "title": "Tezos Ukraine - Secret telegram",
       "token": {
-        "name": "TEZ",
-        "icon": ""
+        "contract": "KT1CHuqrLe5T1HjQ2ypjXVp7y7XzUgWBrVJd",
+        "standard": "fa2",
+        "metadata": {
+          "name": "tezoss",
+          "symbol": "tezoss",
+          "decimals": "6",
+          "description": "tezos ",
+          "shouldPreferSymbol": "true"
+        }
       },
-      "minBalance": 100,
-      "href": "https://t.me/TezosUkraine"
+      "links": [
+        {
+          "linkType": "telegram",
+          "tokenId": "0",
+          "minBalance": 100,
+          "link": "https://t.me/TezosUkraine"
+        }
+      ],
+      "isSeparateLinks": false
     }
   }
 }

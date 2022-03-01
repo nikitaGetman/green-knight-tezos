@@ -23,3 +23,7 @@ export function searchTokens({ q }: { q: string }): Promise<any> {
 export function searchToken({ contract }: { contract: string }): Promise<any> {
   return client.get('/token', { params: { contract } });
 }
+
+export function createSecureLink(params: any): Promise<any> {
+  return client.post('/link', params);
+}
