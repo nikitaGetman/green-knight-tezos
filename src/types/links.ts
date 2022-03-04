@@ -22,7 +22,7 @@ export type TokenType = {
   totalMinted?: string;
   totalBurned?: string;
   totalSupply?: string;
-  metadata: TokenMetadata;
+  metadata?: TokenMetadata;
 };
 
 export enum LinkTypes {
@@ -34,7 +34,7 @@ export type LinkType = {
   minBalance?: string;
   tokenId: string | number;
   linkType: LinkTypes;
-  // link?: string;
+  link?: string;
 };
 
 export type SecureLinkType = {
@@ -43,8 +43,8 @@ export type SecureLinkType = {
   token: {
     contract: string;
     standard: TokenStandards;
-    metadata: TokenMetadata;
+    metadata?: TokenMetadata;
   };
   links: LinkType[];
-  isSeparateLinks?: boolean;
+  isSeparateLink?: boolean;
 };

@@ -22,6 +22,27 @@
         }
       ],
       "isSeparateLinks": false
+    },
+    "cool": {
+      "title": "Some cool link",
+      "token": {
+        "contract": "KT1Bis3bo5NyitNE2bC9TYd4pFFznx4H4JFT",
+        "standard": "fa2",
+        "metadata": {
+          "name": "TopToken2",
+          "symbol": "TT2",
+          "decimals": "0"
+        }
+      },
+      "links": [
+        {
+          "linkType": "http",
+          "tokenId": "0",
+          "minBalance": 200,
+          "link": "https://fa2-bakery.netlify.app/"
+        }
+      ],
+      "isSeparateLinks": false
     }
   }
 }

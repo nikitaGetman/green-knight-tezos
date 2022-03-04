@@ -19,4 +19,27 @@
   &__error-link {
     color: red;
   }
+
+  &__links {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__link-title {
+    font-size: 20px;
+    margin: 16px 0 8px;
+    font-weight: bold;
+  }
+
+  &__data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &--hidden-true {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
 }

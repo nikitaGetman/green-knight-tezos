@@ -16,15 +16,18 @@ type TokenDataType = {
 
 const renderToken = (token: TokenDataType) => {
   const { metadata } = token;
-  const icon = formatIpfsUrl(metadata.image || metadata.thumbnailUri || metadata.displayUri || '');
-  const title = metadata.name || '';
-  const symbol = metadata.symbol || '';
+  const icon = metadata && formatIpfsUrl(metadata.image || metadata.thumbnailUri || metadata.displayUri || '');
+  const title = metadata?.name || '';
+  const symbol = metadata?.symbol || '';
+  const contract = token.contract.address;
+  const shouldShowContract = !symbol && !title;
 
   return (
     <div className="link-option">
-      <span className="link-option__icon" style={{ backgroundImage: `url(${icon})` }}></span>
+      {icon && <span className="link-option__icon" style={{ backgroundImage: `url(${icon})` }}></span>}
       {symbol && <span className="link-option__symbol">{symbol}</span>}
       {title && <span className="link-option__title">{title}</span>}
+      {shouldShowContract && <span className="link-option__contract">{contract}</span>}
     </div>
   );
 };

@@ -49,7 +49,7 @@ export const CreateLinkPage: FC = () => {
             linkType: type,
             tokenId: id,
             link: link[id],
-            minBalance: minBalance[id] || 0,
+            minBalance: minBalance?.[id] || 0,
           },
         ],
         []

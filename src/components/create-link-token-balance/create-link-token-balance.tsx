@@ -20,9 +20,10 @@ type CreateLinkTokenBalanceProps = {
 export const CreateLinkTokenBalance: FC<CreateLinkTokenBalanceProps> = ({ token, withHeader = false }) => {
   const [linkType, setLinkType] = useState('http');
   const { tokenId, metadata, totalSupply } = token;
-  const decimals = useMemo(() => parseInt(metadata.decimals) || 0, [metadata]);
+  const decimals = useMemo(() => parseInt(metadata?.decimals || '0'), [metadata]);
   const image = useMemo(
-    () => formatIpfsUrl(metadata.image || metadata.thumbnailUri || metadata.displayUri || metadata.artifactUri || ''),
+    () =>
+      formatIpfsUrl(metadata?.image || metadata?.thumbnailUri || metadata?.displayUri || metadata?.artifactUri || ''),
     [metadata]
   );
   const supplyNumber = useMemo(() => parseInt(totalSupply || '0') / 10 ** decimals, [totalSupply, decimals]);

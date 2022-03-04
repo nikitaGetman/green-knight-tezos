@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/button/button';
@@ -12,7 +12,7 @@ import useFetch from '@/hooks/useFetch';
 import { Loader } from '@/components/loader/loader';
 import { LinkDataView } from '@/components/link-data/link-data';
 
-import { SecureLinkType } from '@/types/links';
+import { LinkType, SecureLinkType } from '@/types/links';
 import './authorize.scss';
 
 const walletController = new WalletController();
@@ -27,12 +27,16 @@ const STEPS = [
 export const AuthorizePage: FC = () => {
   const { linkId } = useParams();
   const { steps, current, status, error, setCurrent, setStatus, setError, nextStep } = useSteps(STEPS);
+  const [links, setLinks] = useState<LinkType[]>([]);
 
   const fetchLinkRequest = useFetch<SecureLinkType>(fetchLinkData, { link: linkId || '' }, true);
   const isUrlIncorrect = useMemo(
     () => fetchLinkRequest.hasError || (fetchLinkRequest.data && !fetchLinkRequest.data.title),
     [fetchLinkRequest]
   );
+
+  const tokenName =
+    fetchLinkRequest?.data?.token?.metadata?.name || fetchLinkRequest?.data?.token?.metadata?.symbol || '';
 
   // Restore connected wallet
   // useEffect(() => {
@@ -47,16 +51,19 @@ export const AuthorizePage: FC = () => {
   // }, []);
 
   const handleSuccess = useCallback(
-    (payload) => {
+    (links) => {
       setStatus('process');
-      const { href } = payload;
+      setLinks(links);
+      if (links.length === 1) {
+        const { link } = links[0];
 
-      setTimeout(() => {
-        setStatus('finish');
-        window.open(href);
-      }, 2000);
+        setTimeout(() => {
+          setStatus('finish');
+          window.open(link);
+        }, 2000);
+      }
     },
-    [setStatus]
+    [setStatus, setLinks]
   );
 
   const checkWalletBalance = useCallback(() => {
@@ -69,13 +76,13 @@ export const AuthorizePage: FC = () => {
       .then((res) => {
         if (res.data.status === 'ok') {
           nextStep();
-          handleSuccess(res.data);
+          handleSuccess(res.data.links);
         } else {
           setError(res.data.message);
         }
       })
       .catch((e) => {
-        setError(e?.message);
+        setError(e?.response?.data || e?.message);
       });
   }, [nextStep, setStatus, setError, handleSuccess, linkId]);
 
@@ -119,14 +126,29 @@ export const AuthorizePage: FC = () => {
         </span>
       )}
 
+      {links.length > 0 && (
+        <div className="authorize__links">
+          <h4 className="authorize__link-title">You can access to:</h4>
+          {links.map((link, index) => (
+            <span>
+              {`${index + 1}. `}
+              <a className="authorize__link" href={link.link} target="_blank" rel="noreferrer" key={index}>
+                {link.link}
+              </a>
+              {!!link.minBalance && `- ${link.minBalance} ${tokenName}`}
+            </span>
+          ))}
+        </div>
+      )}
+
       {fetchLinkRequest.data && (
-        <>
+        <div className={`authorize__data authorize__data--hidden-${links.length > 0}`}>
           <LinkDataView {...fetchLinkRequest.data} />
           <div className="authorize__steps">
             <AuthorizationSteps steps={steps} current={current} error={error} status={status} />
           </div>
           <Button onClick={connectWallet}>Connect wallet</Button>
-        </>
+        </div>
       )}
     </div>
   );
