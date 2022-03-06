@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/button/button';
@@ -28,6 +28,7 @@ export const AuthorizePage: FC = () => {
   const { linkId } = useParams();
   const { steps, current, status, error, setCurrent, setStatus, setError, nextStep } = useSteps(STEPS);
   const [links, setLinks] = useState<LinkType[]>([]);
+  const isLoadingActiveAccount = useRef(false);
 
   const fetchLinkRequest = useFetch<SecureLinkType>(fetchLinkData, { link: linkId || '' }, true);
   const isUrlIncorrect = useMemo(
@@ -37,18 +38,6 @@ export const AuthorizePage: FC = () => {
 
   const tokenName =
     fetchLinkRequest?.data?.token?.metadata?.name || fetchLinkRequest?.data?.token?.metadata?.symbol || '';
-
-  // Restore connected wallet
-  // useEffect(() => {
-  //   walletController
-  //     .loadActiveAccount()
-  //     .then((account) => {
-  //       setStatus()
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // }, []);
 
   const handleSuccess = useCallback(
     (links) => {
@@ -114,6 +103,27 @@ export const AuthorizePage: FC = () => {
       });
   }, [nextStep, setStatus, setError, setCurrent, signData]);
 
+  // Restore connected wallet
+  // useEffect(() => {
+  //   if (!isLoadingActiveAccount.current) {
+  //     isLoadingActiveAccount.current = true;
+
+  //     walletController
+  //       .loadActiveAccount()
+  //       .then((account) => {
+  //         if (account) {
+  //           nextStep();
+  //           nextStep();
+  //           checkWalletBalance();
+  //           console.log('try to sign data');
+  //         }
+  //       })
+  //       .catch((e) => {
+  //         console.error(e);
+  //       });
+  //   }
+  // }, [checkWalletBalance, nextStep]);
+
   return (
     <div className="authorize">
       <h2 className="authorize__title">Connect wallet to get access</h2>
@@ -147,7 +157,9 @@ export const AuthorizePage: FC = () => {
           <div className="authorize__steps">
             <AuthorizationSteps steps={steps} current={current} error={error} status={status} />
           </div>
-          <Button onClick={connectWallet}>Connect wallet</Button>
+          <Button type="primary" onClick={connectWallet}>
+            Connect wallet
+          </Button>
         </div>
       )}
     </div>

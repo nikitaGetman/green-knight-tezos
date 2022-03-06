@@ -1,6 +1,6 @@
 const { Client } = require("pg");
 
-const DB_HOST = process.env.DB_HOST || "localhost:5432";
+const DB_HOST = process.env.DB_HOST || "localhost:5433";
 const DB_USER = process.env.DB_USER || "admin";
 const DB_NAME = process.env.DB_NAME || "app_db";
 const DB_PASSWORD = process.env.DB_PASSWORD || "admin";
