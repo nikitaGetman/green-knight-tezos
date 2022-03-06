@@ -38,10 +38,10 @@ export type LinkType = {
 };
 
 export type SecureLinkType = {
-  id: string;
+  code: string;
   title: string;
   token: {
-    contract: string;
+    contract: { address: string };
     standard: TokenStandards;
     metadata?: TokenMetadata;
   };

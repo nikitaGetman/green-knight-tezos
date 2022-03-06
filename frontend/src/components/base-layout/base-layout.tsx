@@ -11,6 +11,13 @@ export const BaseLayout: FC = () => {
       <div className="base-layout__main">
         <Outlet />
       </div>
+
+      <div className="base-layout__footer">
+        {/* Powered by{' '}
+        <a href="https://tzkt.io/" target="_blank" rel="noreferrer">
+          TzKT API
+        </a> */}
+      </div>
     </div>
   );
 };

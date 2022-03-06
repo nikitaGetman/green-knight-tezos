@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const apiRoutes = require("./apiRoutes");
 
+const dbClient = require("./dbClient");
+
 dotenv.config();
 
 const corsOptions = {
@@ -12,7 +14,7 @@ const corsOptions = {
 };
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -22,4 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", apiRoutes);
 // app.use("/*", express.static("public"));
 
-app.listen(port, () => console.log(`Running on port ${port}`));
+dbClient.client.connect().then(() => {
+  console.log("Database connected");
+  app.listen(port, () => console.log(`Running on port ${port}`));
+});

@@ -130,12 +130,12 @@ export const AuthorizePage: FC = () => {
         <div className="authorize__links">
           <h4 className="authorize__link-title">You can access to:</h4>
           {links.map((link, index) => (
-            <span>
+            <span key={index}>
               {`${index + 1}. `}
               <a className="authorize__link" href={link.link} target="_blank" rel="noreferrer" key={index}>
                 {link.link}
               </a>
-              {!!link.minBalance && `- ${link.minBalance} ${tokenName}`}
+              {!!link.minBalance && ` - ${link.minBalance} ${tokenName} tokens`}
             </span>
           ))}
         </div>

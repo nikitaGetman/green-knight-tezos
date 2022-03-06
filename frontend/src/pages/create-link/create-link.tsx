@@ -12,7 +12,7 @@ import { CreateLinkTokenBalance } from '@/components/create-link-token-balance/c
 import useFetch from '@/hooks/useFetch';
 import { createSecureLink } from '@/api/api';
 
-const BASE_LINK = process.env.REACT_APP_BASE_FRONT_URL;
+const BASE_LINK = process.env.REACT_APP_BASE_FRONT_URL || 'http://localhost:3000';
 
 export const CreateLinkPage: FC = () => {
   const [form] = Form.useForm();
@@ -55,11 +55,11 @@ export const CreateLinkPage: FC = () => {
         []
       );
 
-      const requestParams = { title, token, links, isSeparateLink };
+      const requestParams = { title, token: token[0], links };
 
       createLinkRequest.fetch(requestParams);
     },
-    [token, isSeparateLink, createLinkRequest]
+    [token, createLinkRequest]
   );
 
   // scroll to top on link created
@@ -82,14 +82,20 @@ export const CreateLinkPage: FC = () => {
     <div className="create-link">
       <h2 className="create-link__title">Create secure link to resource to grant access for you loyal audience</h2>
 
-      {createLinkRequest.isDone && (
+      {createLinkRequest.isDone && !createLinkRequest.hasError && (
         <div className="create-link__result">
           <div>Link is protected, for authorization use:</div>
           <div>
-            <a href={`${BASE_LINK}/${createLinkRequest.data?.id}`} target="_blank" rel="noreferrer">
-              {BASE_LINK}/<b>{createLinkRequest.data?.id}</b>
+            <a href={`${BASE_LINK}/${createLinkRequest.data?.code}`} target="_blank" rel="noreferrer">
+              {BASE_LINK}/<b>{createLinkRequest.data?.code}</b>
             </a>
           </div>
+        </div>
+      )}
+
+      {createLinkRequest.hasError && (
+        <div className="create-link__result">
+          <div className="create-link__error">{createLinkRequest.errorMessage}</div>
         </div>
       )}
 
