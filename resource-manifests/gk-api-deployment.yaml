@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gk-api
+  labels:
+    app: gk-api
+spec:
+  replicas: 2
+  minReadySeconds: 15
+  selector:
+    matchLabels:
+      app: gk-api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: gk-api
+    spec:
+      containers:
+        - image: nikitagetman/gk-api:0.1
+          imagePullPolicy: Always
+          name: gk-api
+          ports:
+            - containerPort: 5000

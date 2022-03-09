@@ -1,8 +1,7 @@
 FROM node:14.7.0-alpine as build
 WORKDIR /app
 
-ENV REACT_APP_BASE_FRONT_URL=http://gk-front:80
-ENV REACT_APP_BASE_API_URL=http://gk-api:5000/api
+ENV BASE_API_URL=http://gk-api/api
 
 COPY package.json /app/package.json
 RUN npm install

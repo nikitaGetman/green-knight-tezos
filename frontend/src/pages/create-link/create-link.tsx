@@ -12,7 +12,7 @@ import { CreateLinkTokenBalance } from '@/components/create-link-token-balance/c
 import useFetch from '@/hooks/useFetch';
 import { createSecureLink } from '@/api/api';
 
-const BASE_LINK = process.env.REACT_APP_BASE_FRONT_URL || 'http://localhost:3000';
+const BASE_LINK = window.location.origin;
 
 export const CreateLinkPage: FC = () => {
   const [form] = Form.useForm();
@@ -153,24 +153,10 @@ export const CreateLinkPage: FC = () => {
               </Form.Item>
 
               {isSeparateLink ? (
-                token.map((t) => <CreateLinkTokenBalance token={t} withHeader={true} key={t.tokenId} />)
+                token.map((t) => <CreateLinkTokenBalance token={t} withHeader key={t.tokenId} />)
               ) : (
                 <CreateLinkTokenBalance token={token[0]} />
               )}
-
-              {/* <Form.Item
-                name="hasAddedTelegramBot"
-                valuePropName="checked"
-                wrapperCol={{ offset: 7 }}
-                rules={[{ required: true, message: 'Add telegram bot, if you added telegram links' }]}
-              >
-                <Checkbox>
-                  I have added GreenKnight telegram bot to the telegram channels.
-                  <Link to="/telegram-bot" target="_blank">
-                    Instruction
-                  </Link>
-                </Checkbox>
-              </Form.Item> */}
 
               <Form.Item className="create-link__submit">
                 <Button type="primary" onClick={trySubmitForm} loading={createLinkRequest.isLoading}>
@@ -181,6 +167,28 @@ export const CreateLinkPage: FC = () => {
           ) : (
             <div className="create-link__tip">select token</div>
           )}
+
+          <div className="create-link__info">
+            <div>
+              Use
+              <a
+                href="https://github.com/nikitaGetman/tezos-flame-defi/blob/master/telegram-bot/readme.md"
+                target="_blank"
+                style={{ marginLeft: 4, marginRight: 4 }}
+                rel="noreferrer"
+              >
+                Telegram bot
+              </a>
+              to protect your chats.
+            </div>
+            <div>
+              Use
+              <Link to="/plugin" target="_blank" style={{ marginLeft: 4, marginRight: 4 }}>
+                Plugin
+              </Link>
+              to protect your http resources.
+            </div>
+          </div>
         </Form>
       </div>
     </div>

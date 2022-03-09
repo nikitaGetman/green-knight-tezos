@@ -17,7 +17,7 @@ export class WalletController {
 
     const options = {
       name: APP_NAME,
-      iconUrl: `${process.env.REACT_APP_BASE_FRONT_URL}/favicon.ico`,
+      iconUrl: `${window.location.origin}/favicon.ico`,
       preferredNetwork: this.network,
     };
 

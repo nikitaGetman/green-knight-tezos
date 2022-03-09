@@ -80,6 +80,38 @@ services:
     networks:
       - postgres
 
+  api:
+    container_name: gk-api
+    image: nikitagetman/gk-api:0.1
+    depends_on:
+      - postgres
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2G
+    networks:
+      - postgres
+
+  frontend:
+    container_name: gk-frontend
+    image: nikitagetman/gk-front:0.1
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2G
+    networks:
+      - postgres
+
 networks:
   postgres:
     driver: bridge
