@@ -12,7 +12,7 @@ export class WalletController {
   private accountAddress: string = '';
   private signature: string = '';
 
-  constructor(network = NetworkType.HANGZHOUNET) {
+  constructor(network = NetworkType.MAINNET) {
     this.network = network;
 
     const options = {
