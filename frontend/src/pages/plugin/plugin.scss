@@ -1,0 +1,28 @@
+.plugin {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__container {
+    width: 380px;
+    min-height: 540px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: white;
+    overflow: hidden;
+  }
+
+  &__logo {
+    width: 140px;
+    height: 70px;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../../assets/images/logo_transparent.png');
+  }
+}

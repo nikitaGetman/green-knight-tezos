@@ -5,6 +5,7 @@ import { BaseLayout } from './components/base-layout/base-layout';
 import { AuthorizePage } from './pages/authorization/authorization';
 import { CreateLinkPage } from './pages/create-link/create-link';
 import { MainPage } from './pages/main/main';
+import { PluginInfoPage } from './pages/plugin-info/plugin-info';
 import { PluginPage } from './pages/plugin/plugin';
 import { TelegramBot } from './pages/telegram-bot/telegram-bot';
 
@@ -14,10 +15,11 @@ export const App: FC = () => {
       <Route path="/" element={<BaseLayout />}>
         <Route index element={<MainPage />} />
         <Route path="create" element={<CreateLinkPage />} />
-        <Route path="plugin" element={<PluginPage />} />
+        <Route path="plugin-info" element={<PluginInfoPage />} />
         <Route path=":linkId" element={<AuthorizePage />} />
         <Route path="telegram-bot" element={<TelegramBot />} />
       </Route>
+      <Route path="/plugin" element={<PluginPage />} />
     </Routes>
   );
 };

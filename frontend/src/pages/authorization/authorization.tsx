@@ -24,8 +24,11 @@ const STEPS = [
   { title: 'Success!' },
 ];
 
-export const AuthorizePage: FC = () => {
-  const { linkId } = useParams();
+export const AuthorizePage: FC<{ linkIdProp?: string }> = ({ linkIdProp }) => {
+  const { linkId: linkIdParam } = useParams();
+  const search = window.location.search;
+  const linkIdQuery = new URLSearchParams(search).get('linkId');
+  const linkId = linkIdParam || linkIdProp || linkIdQuery;
   const { steps, current, status, error, setCurrent, setStatus, setError, nextStep } = useSteps(STEPS);
   const [links, setLinks] = useState<LinkType[]>([]);
   const isLoadingActiveAccount = useRef(false);
@@ -43,16 +46,19 @@ export const AuthorizePage: FC = () => {
     (links) => {
       setStatus('process');
       setLinks(links);
-      if (links.length === 1) {
-        const { link } = links[0];
 
-        setTimeout(() => {
+      setTimeout(() => {
+        if (links.length === 1) {
+          const { link } = links[0];
           setStatus('finish');
-          window.open(link);
-        }, 2000);
-      }
+          if (!linkIdQuery) {
+            // if not plugin usage, then redirect
+            window.open(link);
+          }
+        }
+      }, 2000);
     },
-    [setStatus, setLinks]
+    [setStatus, setLinks, linkIdQuery]
   );
 
   const checkWalletBalance = useCallback(() => {
@@ -64,13 +70,16 @@ export const AuthorizePage: FC = () => {
     checkUser({ account, signature, link })
       .then((res) => {
         if (res.data.status === 'ok') {
+          window.top?.postMessage('Green Knight plugin: check success', '*');
           nextStep();
           handleSuccess(res.data.links);
         } else {
+          window.top?.postMessage('Green Knight plugin: error - Insufficient balance', '*');
           setError(res.data.message);
         }
       })
       .catch((e) => {
+        window.top?.postMessage('Green Knight plugin: error', '*');
         setError(e?.response?.data || e?.message);
       });
   }, [nextStep, setStatus, setError, handleSuccess, linkId]);
@@ -80,10 +89,12 @@ export const AuthorizePage: FC = () => {
     walletController
       .requestSign()
       .then(() => {
+        window.top?.postMessage('Green Knight plugin: data signed', '*');
         nextStep();
         checkWalletBalance();
       })
       .catch((e) => {
+        window.top?.postMessage('Green Knight plugin: error', '*');
         setError(e);
       });
   }, [nextStep, setStatus, setError, checkWalletBalance]);
@@ -95,10 +106,12 @@ export const AuthorizePage: FC = () => {
     walletController
       .connectWallet(true)
       .then(() => {
+        window.top?.postMessage('Green Knight plugin: wallet connected', '*');
         nextStep();
         signData();
       })
       .catch((e) => {
+        window.top?.postMessage('Green Knight plugin: error', '*');
         setError(e);
       });
   }, [nextStep, setStatus, setError, setCurrent, signData]);

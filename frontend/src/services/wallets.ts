@@ -3,7 +3,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { char2Bytes } from '@taquito/utils';
 import { NetworkType, RequestSignPayloadInput, SigningType } from '@airgap/beacon-sdk';
 
-const APP_NAME = 'Test app';
+const APP_NAME = 'Green Knight Protect';
 
 export class WalletController {
   // private tezos;

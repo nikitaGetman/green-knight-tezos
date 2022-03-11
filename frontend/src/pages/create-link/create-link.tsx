@@ -183,7 +183,7 @@ export const CreateLinkPage: FC = () => {
             </div>
             <div>
               Use
-              <Link to="/plugin" target="_blank" style={{ marginLeft: 4, marginRight: 4 }}>
+              <Link to="/plugin-info" target="_blank" style={{ marginLeft: 4, marginRight: 4 }}>
                 Plugin
               </Link>
               to protect your http resources.

@@ -98,7 +98,7 @@ services:
 
   frontend:
     container_name: gk-frontend
-    image: nikitagetman/gk-front:0.1
+    image: nikitagetman/gk-front:0.1.1
     depends_on:
       - api
     ports:

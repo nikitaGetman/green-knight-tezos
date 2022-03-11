@@ -1,13 +1,15 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC } from 'react';
+import { AuthorizePage } from '../authorization/authorization';
+
+import './plugin.scss';
 
 export const PluginPage: FC = () => {
-  useEffect(() => {
-    window.location.href = 'https://github.com/nikitaGetman/tezos-flame-defi/blob/master/plugin/readme.md';
-  }, []);
-
   return (
     <div className="plugin">
-      <p>How to use plugin</p>
+      <div className="plugin__container">
+        <div className="plugin__logo"></div>
+        <AuthorizePage />
+      </div>
     </div>
   );
 };
