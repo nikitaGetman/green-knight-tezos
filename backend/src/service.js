@@ -3,7 +3,7 @@ const axios = require("axios");
 const crypto = require("crypto");
 
 const baseUrl =
-  process.env.INDEXER_BASE_URL || "https://api.hangzhou2net.tzkt.io/v1";
+  process.env.INDEXER_BASE_URL || "https://api.mainnet.tzkt.io/v1"; // hangzhou2net
 
 const searchTokens = (search) => {
   if (!search || typeof search !== "string") {
@@ -44,12 +44,10 @@ const searchTokens = (search) => {
   );
 };
 
-const getTokenByContract = (contract) => {
-  return axios
-    .get(`${baseUrl}/tokens`, { params: { contract } })
-    .then((result) => {
-      return result.data;
-    });
+const getTokenById = (id) => {
+  return axios.get(`${baseUrl}/tokens`, { params: { id } }).then((result) => {
+    return result.data;
+  });
 };
 
 const getSecureLinkByCode = async (code) => {
@@ -142,7 +140,7 @@ const checkUserHasAccess = async ({ account, signature, linkCode }) => {
 
 module.exports = {
   searchTokens,
-  getTokenByContract,
+  getTokenById,
   getSecureLinkByCode,
   createSecureLink,
   checkUserHasAccess,

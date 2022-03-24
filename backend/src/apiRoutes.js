@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   searchTokens,
-  getTokenByContract,
+  getTokenById,
   getSecureLinkByCode,
   createSecureLink,
   checkUserHasAccess,
@@ -23,10 +23,10 @@ router.get("/tokens", async (req, res) => {
 });
 
 router.get("/token", async (req, res) => {
-  const { contract } = req.query;
+  const { id } = req.query;
 
   try {
-    const token = await getTokenByContract(contract);
+    const token = await getTokenById(id);
     if (!token) {
       res.status(404).send("Token not found");
     } else {

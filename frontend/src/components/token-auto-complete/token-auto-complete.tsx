@@ -72,11 +72,10 @@ export const TokenAutoComplete: FC<Props> = ({ onSelect }) => {
   const handleSelect = useCallback(
     (id: any) => {
       const token = options.find((op) => String(op.id) === id);
-      const contract = token?.contract.address || '';
       setSelectedToken(token);
 
-      if (contract) {
-        searchTokenRequest.fetch({ contract }).then((response) => {
+      if (token && token.id) {
+        searchTokenRequest.fetch({ id }).then((response) => {
           onSelect(response);
         });
       }
