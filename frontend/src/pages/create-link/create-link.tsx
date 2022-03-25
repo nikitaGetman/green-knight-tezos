@@ -172,7 +172,7 @@ export const CreateLinkPage: FC = () => {
             <div>
               Use
               <a
-                href="https://github.com/nikitaGetman/tezos-flame-defi/blob/master/telegram-bot/readme.md"
+                href="https://github.com/nikitaGetman/tezos-flame-defi/blob/master/bots"
                 target="_blank"
                 style={{ marginLeft: 4, marginRight: 4 }}
                 rel="noreferrer"

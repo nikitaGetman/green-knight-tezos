@@ -82,7 +82,7 @@ services:
 
   api:
     container_name: gk-api
-    image: nikitagetman/gk-api:0.1
+    image: nikitagetman/gk-api:0.1.3
     depends_on:
       - postgres
     ports:
@@ -98,7 +98,7 @@ services:
 
   frontend:
     container_name: gk-frontend
-    image: nikitagetman/gk-front:0.1.3
+    image: nikitagetman/gk-front:0.1.7
     depends_on:
       - api
     ports:

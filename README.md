@@ -4,15 +4,16 @@ _Authored by Nikita Getman for Tezos DeFi Hackathon 2022_
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[RUS version](./README_ru.md)
+![Logo](./docs/logo.png)
 
-! TODO
-[Demo]()
+[RUS version of this file](./README_ru.md)
+
+[Demo](http://84.201.184.103/)
 
 This service allows you to identify the user's balance in the target FA1.2 or FA2 tokens in the Tezos blockchain and provides access to Telegram and Discord channels, or HTTP resources. To gain access, the user must connect the wallet and sign the data to confirm ownership of the wallet. If the user has enough target tokens, he will be able to access the resource.
 
 You can use Green Knight as a SaaS solution.  
-The service also provides [open API](./backend/), which allows other applications to check the balance of target tokens from users.
+The service also provides [open API](./backend/), which allows other applications to check the wallet balance of target tokens.
 
 Also, you can use the [Green Knight Plugin](./plugin/) in your web application, which will allow you to verify that users using your application have a sufficient number of tokens.
 
@@ -49,7 +50,7 @@ Q1 2022:
 
 Q2 2022:
 
-- Expansion of the development team
+- Grow the development team
 - Implementation of a local blockchain indexer
 - Launching a Telegram bot
 - Public alpha-version release

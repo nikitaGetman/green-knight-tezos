@@ -24,6 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", apiRoutes);
 // app.use("/*", express.static("public"));
 
+console.log("process.env.DB_HOST", process.env.DB_HOST);
+console.log(process.env);
+
 dbClient.client.connect().then(() => {
   console.log("Database connected");
   app.listen(port, () => console.log(`Running on port ${port}`));

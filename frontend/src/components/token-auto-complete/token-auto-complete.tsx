@@ -74,8 +74,8 @@ export const TokenAutoComplete: FC<Props> = ({ onSelect }) => {
       const token = options.find((op) => String(op.id) === id);
       setSelectedToken(token);
 
-      if (token && token.id) {
-        searchTokenRequest.fetch({ id }).then((response) => {
+      if (token && token.contract?.address) {
+        searchTokenRequest.fetch({ contract: token.contract.address }).then((response) => {
           onSelect(response);
         });
       }

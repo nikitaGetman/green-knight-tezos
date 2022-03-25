@@ -44,10 +44,12 @@ const searchTokens = (search) => {
   );
 };
 
-const getTokenById = (id) => {
-  return axios.get(`${baseUrl}/tokens`, { params: { id } }).then((result) => {
-    return result.data;
-  });
+const getTokenByContract = (contract) => {
+  return axios
+    .get(`${baseUrl}/tokens`, { params: { contract } })
+    .then((result) => {
+      return result.data;
+    });
 };
 
 const getSecureLinkByCode = async (code) => {
@@ -140,7 +142,7 @@ const checkUserHasAccess = async ({ account, signature, linkCode }) => {
 
 module.exports = {
   searchTokens,
-  getTokenById,
+  getTokenByContract,
   getSecureLinkByCode,
   createSecureLink,
   checkUserHasAccess,

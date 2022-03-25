@@ -7,7 +7,7 @@ This plugin makes it easy to embed a user's balance check into your web applicat
 To use the plugin, first include the plugin script:
 
 ```html
-<script src="https://raw.githubusercontent.com/nikitaGetman/green-knight-tezos/master/plugin/src/green-knight-plugin.js"></script>
+<script src="https://greenknight-cdn.website.yandexcloud.net"></script>
 ```
 
 After loading the script, the global `GreenKnightPlugin` object will be available. Call the constructor and pass the code of your authorization rule created using the Green Knight web application.

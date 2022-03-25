@@ -1,7 +1,7 @@
 FROM node:14.7.0-alpine as build
 WORKDIR /app
 
-ENV BASE_API_URL=http://localhost:5000
+ENV REACT_APP_BASE_API_URL=http://84.201.184.103:5000
 
 COPY package.json /app/package.json
 RUN npm install

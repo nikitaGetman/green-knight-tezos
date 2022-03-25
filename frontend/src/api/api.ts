@@ -20,8 +20,8 @@ export function searchTokens({ q }: { q: string }): Promise<any> {
   return client.get('/tokens', { params: { q } });
 }
 
-export function searchToken({ id }: { id: string | number }): Promise<any> {
-  return client.get('/token', { params: { id } });
+export function searchToken({ contract }: { contract: string }): Promise<any> {
+  return client.get('/token', { params: { contract } });
 }
 
 export function createSecureLink(params: any): Promise<any> {

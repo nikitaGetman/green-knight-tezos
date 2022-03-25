@@ -1,1 +1,5 @@
-# How to use telegram bot
+# How to use Telegram bot
+
+WIP
+
+[General info about bots](../README.md)

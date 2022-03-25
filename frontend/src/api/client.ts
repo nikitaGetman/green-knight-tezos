@@ -3,7 +3,8 @@ import axios from 'axios';
 const timeout = 600000;
 const axiosInstance = axios.create({
   // baseURL: 'http://84.201.184.103:5000/api',
-  baseURL: 'http://localhost:5000/api',
+  baseURL:
+    process.env.NODE_ENV === 'production' ? `${process.env.REACT_APP_BASE_API_URL}/api` : 'http://localhost:5000/api',
   timeout,
 });
 
