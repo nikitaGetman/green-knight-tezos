@@ -6,24 +6,19 @@ _Authored by Nikita Getman for Tezos DeFi Hackathon 2022_
 
 ![Logo](./docs/logo.png)
 
-[RUS version of this file](./README_ru.md)
+Green Knight is a token-gated access service built on the Tezos blockchain. It verifies whether a connected wallet holds a sufficient balance of specific FA1.2 or FA2 tokens and grants access to protected resources such as Telegram or Discord channels, or HTTP endpoints.
 
-[Demo](http://84.201.184.103/)
+To gain access, users simply connect their wallet and sign a message to prove ownership. If their token balance meets the defined threshold, access is granted automatically.
 
-This service allows you to identify the user's balance in the target FA1.2 or FA2 tokens in the Tezos blockchain and provides access to Telegram and Discord channels, or HTTP resources. To gain access, the user must connect the wallet and sign the data to confirm ownership of the wallet. If the user has enough target tokens, he will be able to access the resource.
+You can use Green Knight as a SaaS solution, integrate it via open [open API](./backend/), or embed it directly in your product using the [Green Knight Plugin](./plugin/).
 
-You can use Green Knight as a SaaS solution.  
-The service also provides [open API](./backend/), which allows other applications to check the wallet balance of target tokens.
+## 🔐 Key Features:
 
-Also, you can use the [Green Knight Plugin](./plugin/) in your web application, which will allow you to verify that users using your application have a sufficient number of tokens.
-
-## Features:
-
-1. **Granting access based on the user's balance.** Providing access to HTTP resources, or Telegram and Discord communities based on the user's balance in Tezos blockchain.
-2. **Unique resources for each NFT.** You can set up a separate resource links for each tokenId of FA2 token (for example, to provide unique resources for the owners of your NFT).
-3. **Bots for communities.** Bots for Telegram and Discord can moderate the participants of your groups based on their balance. Add users only with a sufficient balance of target tokens. Delete users after their balance has fallen below the required level.
-4. **Plugin for web applications.** The Green Knight plugin makes it easy to embed a user balance check into your web application. It may be useful if you want to restrict access to parts of your web application for users with insufficient number of FA1.2 or FA2 tokens.
-5. **Open API.** Other apps in Tezos ecosystem can use the Green Knight API to check the user's balance.
+1. **Token-gated access control.** Restrict access to web resources, Telegram or Discord communities based on users’ FA1.2 / FA2 token balances.
+2. **Per-token resource management.** Configure unique resources for each tokenId of FA2 tokens — ideal for NFT-gated content or memberships.
+3. **Community moderation bots.** Telegram and Discord bots automatically manage group membership based on token holdings. Add or remove users as their balance changes.
+4. **Seamless web integration.** The Green Knight plugin allows your web app to verify if a connected wallet holds enough tokens before unlocking specific content or features.
+5. **Open API for developers.** Third-party apps in the Tezos ecosystem can use the API to check token balances and implement custom logic.
 
 ## Architecture
 
@@ -86,3 +81,6 @@ Feel free to contact me via:
 - Email: nikita.getman56@gmail.com
 
 Cheers! 🍺
+
+[RUS version of this file](./README_ru.md)
+[Demo](http://84.201.184.103/)
